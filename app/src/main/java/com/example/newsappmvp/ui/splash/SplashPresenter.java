@@ -3,11 +3,11 @@ package com.example.newsappmvp.ui.splash;
 import android.content.Intent;
 import android.os.Handler;
 
-public class SplashPresenter {
+class SplashPresenter {
 
-    SplashView splashView;
+    private SplashView splashView;
 
-    public SplashPresenter(SplashView splashView) {
+    SplashPresenter(SplashView splashView) {
         this.splashView = splashView;
         timerStart();
     }
