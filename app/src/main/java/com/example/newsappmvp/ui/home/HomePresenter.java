@@ -55,7 +55,6 @@ class HomePresenter {
             @Override
             public void onFailure(Call<ResponseHeadLines> call, Throwable t) {
                 Log.e("out", t.toString());
-
             }
         });
     }
