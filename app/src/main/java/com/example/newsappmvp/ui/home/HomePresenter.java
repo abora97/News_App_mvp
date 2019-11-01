@@ -18,22 +18,27 @@ import retrofit2.Response;
 class HomePresenter {
 
     private HomeView view;
-    private int isNews;
-    private String country = "us", sources = "";
+    private boolean isCountry;
+
     private List<Article> articleList;
 
     HomePresenter(HomeView view) {
         this.view = view;
     }
 
-    void getNews() {
-
-
+    void getNews(String country) {
+        isCountry = true;
         final APIInterface apiService = ApiClient.getClient().create(APIInterface.class);
         Call<ResponseHeadLines> call = apiService.getNews(country, Constants.KEY);
         callEnqueue(call);
     }
 
+    void getNewsWithSource(String sources) {
+        isCountry = false;
+        final APIInterface apiService = ApiClient.getClient().create(APIInterface.class);
+        Call<ResponseHeadLines> call = apiService.getNewsWithSource(sources, Constants.KEY);
+        callEnqueue(call);
+    }
 
     private void callEnqueue(Call<ResponseHeadLines> call) {
         call.enqueue(new Callback<ResponseHeadLines>() {
@@ -42,7 +47,7 @@ class HomePresenter {
                 if (response.body().getStatus().equals("ok")) {
                     articleList = response.body().getArticles();
                     if (articleList.size() > 0) {
-                        view.getDataFromApi(articleList);
+                        view.getDataFromApi(articleList, isCountry);
                     }
                 }
             }
